@@ -4,7 +4,7 @@ from transformers import AutoTokenizer, AutoModelForQuestionAnswering, pipeline
 import os
 from PyPDF2 import PdfReader
 from utils.clean_text import clean_text
-
+from utils.extract_text_from_file import extract_text_from_file
 
 
 # --- Model Loading ---
@@ -13,9 +13,6 @@ MODEL_PATH = os.path.join(os.path.dirname(__file__), "models", "arabert_basev2")
 print(f"Loading model from: {MODEL_PATH}")
 if not os.path.exists(MODEL_PATH):
     print("Warning: Model path not found locally. Falling back to HuggingFace if needed.")
-    # Fallback or error handling could go here, but per plan we use the local path.
-    # Note: If local path is missing, transformers might try to look it up online if it looks like a repo ID, 
-    # but "models/arabert_basev2" is definitely a path.
 
 try:
     tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH)
@@ -27,29 +24,6 @@ except Exception as e:
     print(f"Error loading model: {e}")
     qa_pipeline = None
 
-# --- File Processing ---
-def extract_text_from_file(file_obj):
-    if file_obj is None:
-        return ""
-    
-    content = ""
-    try:
-        file_path = file_obj.name
-        if file_path.lower().endswith(".pdf"):
-            reader = PdfReader(file_path)
-            for page in reader.pages:
-                text = page.extract_text()
-                if text:
-                    content += text + "\n"
-        elif file_path.lower().endswith(".txt"):
-            with open(file_path, "r", encoding="utf-8") as f:
-                content = f.read()
-        else:
-            return "Unsupported file format. Please upload PDF or TXT."
-            
-        return clean_text(content)
-    except Exception as e:
-        return f"Error reading file: {str(e)}"
 
 # --- Main QA Function ---
 def answer_question(file_obj, question):
@@ -76,8 +50,7 @@ def answer_question(file_obj, question):
     except Exception as e:
         return f"Error generating answer: {str(e)}"
 
-# --- Gradio Interface ---
-# Custom CSS for a more "Pro" look if needed, but Soft theme is usually good.
+
 custom_css = """
 #component-0 {border-radius: 10px; border: 1px solid #e0e0e0;}
 """

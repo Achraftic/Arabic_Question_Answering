@@ -1,0 +1,6 @@
+gradio
+torch
+transformers
+PyPDF2
+emoji
+
