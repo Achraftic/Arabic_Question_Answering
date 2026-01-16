@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 DATA_DIR = Path(r"c:\Users\hp\Desktop\projet\nlp\projet3_Q&A\unprocessed_data")
 
 # Output file path
-OUTPUT_FILE = Path(r"c:\Users\hp\Desktop\projet\nlp\projet3_Q&A\master_data.csv")
+OUTPUT_FILE = Path(r"c:\Users\hp\Desktop\projet\nlp\projet3_Q&A\dataset\merged_arabic_qa.csv")
 
 # Unified schema - all data will be mapped to these columns
 UNIFIED_SCHEMA = [
@@ -39,11 +39,8 @@ COLUMN_MAPPINGS = {
     "passage_text": "context",
     "document_title": "title",
     
-    # AHQAD.csv format
-    "Question": "question",
-    "Answer": "answer",
-    "Category": "category",
-    "Unnamed: 0": "id",
+    
+
     
     # test.csv format
     "label": "category",
@@ -332,8 +329,8 @@ def merge_all_data(data_dir: Path) -> pl.DataFrame:
     
     for ext in extensions:
         for file_path in data_dir.glob(ext):
-            # Skip any output files we might have created
-            if 'master_data' in file_path.name:
+            # Skip any output files we might have created or excluded files
+            if 'master_data' in file_path.name or 'ahqad.csv' in file_path.name.lower():
                 continue
             
             df = load_data_file(file_path)
