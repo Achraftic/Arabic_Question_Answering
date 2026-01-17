@@ -26,20 +26,24 @@ except Exception as e:
 
 
 # --- Main QA Function ---
-def answer_question(file_obj, question):
+def answer_question(file_obj, text_context, question):
     if not qa_pipeline:
         return "Error: Model not loaded."
-    
-    if file_obj is None:
-        return "Please upload a file."
     
     if not question.strip():
         return "Please ask a question."
 
-    context = extract_text_from_file(file_obj)
+    context = ""
+    if file_obj is not None:
+        context = extract_text_from_file(file_obj)
+    elif text_context and text_context.strip():
+        context = clean_text(text_context)
     
-    if not context or "Error" in context:
-        return "Could not extract content from file or file is empty."
+    if not context:
+        return "Please provide a context (upload a file or paste text)."
+    
+    if "Error" in context:
+        return context
         
     cleaned_question = clean_text(question)
     
@@ -59,11 +63,12 @@ with gr.Interface(
     fn=answer_question,
     inputs=[
         gr.File(label="Upload Context (PDF or TXT)", file_types=[".pdf", ".txt"]),
+        gr.Textbox(label="Or Paste Context Here", placeholder="Paste your arabic text here...", lines=5),
         gr.Textbox(label="Your Question", placeholder="Ask something about the document...", lines=2)
     ],
     outputs=gr.Textbox(label="Answer"),
     title="Pro Arabic QA System",
-    description="Upload a document and ask questions using the fine-tuned AraBERTv2 model.",
+    description="Upload a document OR paste text, then ask questions using the fine-tuned AraBERTv2 model.",
 ) as demo:
     pass
 

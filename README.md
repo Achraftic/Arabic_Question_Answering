@@ -30,18 +30,24 @@ This project fine-tunes Arabic pre-trained transformer models for the **Extracti
 
 ```
 projet3_Q&A/
-├── dataset/
-│   ├── master_data.csv          # Merged raw data (all sources)
-│   ├── data_cleaned.csv         # After null removal
-│   └── data_preprocessed.csv    # Final cleaned data
-├── unprocessed_data/            # Raw source files (JSON, JSONL, CSV)
-├── utils/
-│   └── merge_data.py            # Data merging utility
-├── preprocessing.ipynb          # Initial data preparation
-├── cleaning.ipynb               # Text cleaning pipeline
-├── exploration.ipynb            # Data exploration & analysis
-├── main.ipynb                   # Model training & evaluation
-└── README.md                    # This file
+├── dataset/                 # Processed dataset files
+├── doc/                     # Documentation files
+├── models/                  # Saved models
+├── notebooks/               # Jupyter notebooks for training and analysis
+│   ├── AraELECTRA.ipynb
+│   ├── bert-base-arabertv2.ipynb
+│   ├── cleaning.ipynb
+│   ├── data_pipeline.ipynb
+│   ├── exploration.ipynb
+│   └── preprocessing.ipynb
+├── unprocessed_data/        # Raw source data
+├── utils/                   # Utility scripts
+│   ├── clean_text.py
+│   ├── extract_text_from_file.py
+│   └── merged_data.py
+├── app.py                   # Main application entry point
+├── requirements.txt         # Project dependencies
+└── README.md                # Project documentation
 ```
 
 ---
