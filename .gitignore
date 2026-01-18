@@ -4,3 +4,6 @@ processed_data*
 models
 results
 doc/*
+.vscode/*
+.gradio
+__pycache__/*

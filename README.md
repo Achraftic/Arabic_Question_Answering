@@ -96,6 +96,7 @@ projet3_Q&A/
 ## Datasets
 
 The project merges multiple Arabic QA datasets:
+[link_dataset_cleaned](https://www.kaggle.com/datasets/achraftic/arabic-qa-cleaned)
 
 | Dataset | Format | Description |
 |---------|--------|-------------|
